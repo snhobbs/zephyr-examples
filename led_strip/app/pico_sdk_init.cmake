@@ -1,0 +1,1 @@
+../../deps/modules/hal/rpi_pico/pico_sdk_init.cmake
