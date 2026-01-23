@@ -51,3 +51,6 @@ public:
 };
 
 extern const std::span<const scpi_command_t> scpi_commands_table;
+
+
+extern void start_scpi_thread();

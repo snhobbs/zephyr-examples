@@ -1,0 +1,58 @@
+/*
+ * Copyright (c) 2021 Nordic Semiconductor ASA
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+//#include <zephyr/dt-bindings/dma/rpi-pico-dma-rp2040.h>
+#include <zephyr/dt-bindings/dma/rpi-pico-dma-rp2350.h>
+#include <zephyr/dt-bindings/pinctrl/rpi-pico-rp2350a-pinctrl.h>
+
+/ {
+	chosen {
+		zephyr,shell-uart = &cdc_acm_uart0;
+		zephyr,console = &cdc_acm_uart1;
+		//zephyr,code-partition = &slot0_partition;
+	};
+	aliases {
+		scpiuart = &cdc_acm_uart2; //  allow SCPI to show up out both the uart and usb
+	};
+
+	fstab {
+		compatible = "zephyr,fstab";
+		lfs1: lfs1 {
+			compatible = "zephyr,fstab,littlefs";
+			read-size = <256>;
+			prog-size = <256>;
+			cache-size = <4096>;
+			lookahead-size = <256>;
+			block-cycles = <512>;
+			partition = <&storage_partition>;
+			mount-point = "/lfs";
+			automount;
+		};
+	};
+};
+
+&die_temp {
+	status = "okay";
+};
+
+
+
+&zephyr_udc0 {
+	cdc_acm_uart0: cdc_acm_uart0 {
+		compatible = "zephyr,cdc-acm-uart";
+		label = "CDC_ACM_0";
+	};
+	cdc_acm_uart1: cdc_acm_uart1 {
+		compatible = "zephyr,cdc-acm-uart";
+		label = "CDC_ACM_1";
+	};
+	cdc_acm_uart2: cdc_acm_uart2 {
+		compatible = "zephyr,cdc-acm-uart";
+		label = "CDC_ACM_2";
+	};
+};
+
+

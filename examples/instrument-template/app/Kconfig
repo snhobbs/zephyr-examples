@@ -1,0 +1,28 @@
+# Copyright (c) 2019 Nordic Semiconductor ASA
+# SPDX-License-Identifier: Apache-2.0
+
+menu "Application Configuration"
+
+config BLINKY
+	bool "Enable blinky"
+	default n
+	help 
+	  Use led strip blinky
+
+config SAMPLE_LED_UPDATE_DELAY
+	int "Delay between LED updates in ms"
+	default 50
+	help
+	  Delay between LED updates in ms.
+
+config SAMPLE_LED_BRIGHTNESS
+	int "LED brightness"
+	default 12
+	range 1 255
+	help
+	  Brightness level of each LED. Defaults to a low value to make
+	  it easier to distinguish colors.
+
+endmenu
+
+source "Kconfig.zephyr"

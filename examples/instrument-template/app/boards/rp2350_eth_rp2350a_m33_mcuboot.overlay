@@ -1,0 +1,24 @@
+/ {
+	chosen {
+		zephyr,console = &cdc_acm_uart0;
+		zephyr,shell-uart = &cdc_acm_uart1;
+		zephyr,code-partition = &slot0_partition;
+	};
+};
+
+zephyr_udc0: &usbd {
+	//compatible = "raspberrypi,rp-usbd";
+	status = "okay";
+	cdc_acm_uart0: cdc_acm_uart0 {
+		status = "okay";
+		compatible = "zephyr,cdc-acm-uart";
+		label = "CDC_ACM_0";
+	};
+	cdc_acm_uart1: cdc_acm_uart1 {
+		status = "okay";
+		compatible = "zephyr,cdc-acm-uart";
+		label = "CDC_ACM_1";
+	};
+};
+
+
