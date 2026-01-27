@@ -2,7 +2,7 @@
 extern "C"
 {
 #endif
-int settings_initialization(void);
+int app_settings_init(void);
 
 #ifdef __cplusplus
 }

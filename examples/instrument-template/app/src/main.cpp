@@ -75,6 +75,26 @@ void start_led_timer() {
 }
 
 
+#ifdef CONFIG_BOOT_SERIAL_BOOT_MODE
+#include <zephyr/shell/shell.h>
+#include <zephyr/retention/bootmode.h>
+#include <zephyr/sys/reboot.h>
+static int cmd_mcuboot_serial(const struct shell *sh, size_t argc, char **argv)
+{
+
+	shell_print(sh, "\n");
+	int rc = bootmode_set(BOOT_MODE_TYPE_BOOTLOADER);
+
+	if (rc == 0)
+		sys_reboot(SYS_REBOOT_WARM);
+	
+	return 0;
+}
+
+SHELL_CMD_REGISTER(serial_recovery, NULL, "Serial recovery", cmd_mcuboot_serial);
+#endif
+
+
 int main(void) {
 
   k_work_queue_start(&workq, workq_stack, K_THREAD_STACK_SIZEOF(workq_stack),
@@ -87,7 +107,7 @@ int main(void) {
 #endif
 
 #ifdef CONFIG_SETTINGS
-	const int retval = settings_initialization();
+	const int retval = app_settings_init();
 #endif
   return 0;
 }
