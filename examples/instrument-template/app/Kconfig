@@ -3,12 +3,57 @@
 
 menu "Application Configuration"
 
-config BLINKY
+config APP_BLINKY
 	bool "Enable blinky"
+	select LED_STRIP
 	default n
 	help 
 	  Use led strip blinky
 
+config APP_RS485 
+	bool "Half duplex RS-485 serial"
+	select UART_LINE_CTRL
+	default n
+	help 
+		Enable flow control for RS-485 half duplex
+
+config APP_SCPI
+	bool "Enable SCPI Console"
+	depends on CONSOLE
+	depends on CONSOLE_SUBSYS
+	depends on UART_CONSOLE
+	depends on CONSOLE_GETCHAR
+	depends on !CONSOLE_GETLINE
+	default n
+	help 
+	  Enable scpi over console
+
+config APP_FULL_BINDESC
+	bool "Enable full bin description fields"
+	select BINDESC
+	select BINDESC_DEFINE
+	select BINDESC_DEFINE_BUILD_TIME
+	select BINDESC_BUILD_DATE_TIME_STRING
+	select BINDESC_BUILD_TIME_ALWAYS_REBUILD
+	select BINDESC_DEFINE_VERSION
+	select BINDESC_KERNEL_VERSION_STRING
+	select BINDESC_DEFINE_HOST_INFO
+	select BINDESC_APP_VERSION_STRING
+	select BINDESC_APP_VERSION_MAJOR
+	select BINDESC_APP_VERSION_MINOR
+	select BINDESC_APP_VERSION_PATCHLEVEL
+	select BINDESC_APP_VERSION_NUMBER
+	select BINDESC_APP_BUILD_VERSION
+	select BINDESC_DEFINE_HOST_INFO
+	select BINDESC_HOST_NAME
+	select BINDESC_C_COMPILER_NAME
+	select BINDESC_C_COMPILER_VERSION
+	select BINDESC_CXX_COMPILER_NAME
+	select BINDESC_CXX_COMPILER_VERSION
+	default y 
+	help 
+		Selects all default bindesc fields 
+		
 config SAMPLE_LED_UPDATE_DELAY
 	int "Delay between LED updates in ms"
 	default 50

@@ -11,6 +11,12 @@ Running both the shell and the console is preferred. The shell should include a 
 
 + Uses a conf directory with a Makefile to combine subsections into proj.conf.
 + Include littlefs for internal flash or fatfs for external storage. Use the external storage for firmware updates and data storage.
+	+ settings are stored in the filesystem
 + MCUBoot first stage bootloader
-	+ Update in place over serial or UF2
-
+	+ Use MCUMgr over uart for image update and settings
+	+ Boot entry button and reboot delay for DFU entry 
+	+ Reboot/reset command
+	+ NOTE: In the RP2350 calls to serial_recovery starts the UART/USB bootloader.
++ Use settings subsystem for configuration options
++ bindesc is enabled with the kernel, build data, and app version data available. `west bindesc dump`
++ 

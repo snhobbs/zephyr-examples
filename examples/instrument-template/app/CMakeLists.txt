@@ -4,8 +4,10 @@ cmake_minimum_required(VERSION 3.20.0)
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 project(shell_module)
 
-zephyr_library_sources(src/scpi.cpp src/main.cpp)
-zephyr_library_sources_ifdef(CONFIG_BLINKY src/led.c)
+zephyr_library_sources(src/main.cpp)
+zephyr_library_sources_ifdef(CONFIG_APP_BLINKY src/led.c)
+zephyr_library_sources_ifdef(CONFIG_APP_SCPI src/scpi.cpp)
+zephyr_library_sources_ifdef(CONFIG_SETTINGS src/settings.c)
 #target_sources(app PRIVATE ${app_sources})# ${scpi_sources})
 
 
