@@ -50,7 +50,7 @@ void run_workqueues_and_timers() {
   start_led_timer();
 }
 
-#if 0
+#if 1
 #if !defined(__ZEPHYR__)
 
 #include <arpa/inet.h>
@@ -162,15 +162,6 @@ int main(void) {
 #endif
   run_workqueues_and_timers();
 
-#ifdef USE_IPV6
-  int serv6;
-  struct sockaddr_in6 bind_addr6 = {
-      .sin6_family = AF_INET6,
-      .sin6_port = htons(BIND_PORT),
-      .sin6_addr = IN6ADDR_ANY_INIT,
-  };
-#endif
-
   wait_for_network();
 
 #if !defined(USE_IPV6) || !(CONFIG_SOC_SERIES_CC32XX)
@@ -189,34 +180,6 @@ int main(void) {
   setblocking(serv4, false);
   listen(serv4, 5);
   pollfds_add(serv4);
-#endif
-
-#ifdef USE_IPV6
-  serv6 = socket(AF_INET6, SOCK_STREAM, IPPROTO_TCP);
-  if (serv6 < 0) {
-    printf("error: socket(AF_INET6): %d\n", errno);
-    exit(1);
-  }
-#ifdef IPV6_V6ONLY
-  /* For Linux, we need to make socket IPv6-only to bind it to the
-   * same port as IPv4 socket above.
-   */
-  int TRUE = 1;
-  res = setsockopt(serv6, IPPROTO_IPV6, IPV6_V6ONLY, &TRUE, sizeof(TRUE));
-  if (res < 0) {
-    printf("error: setsockopt: %d\n", errno);
-    exit(1);
-  }
-#endif
-  res = bind(serv6, (struct sockaddr *)&bind_addr6, sizeof(bind_addr6));
-  if (res == -1) {
-    printf("Cannot bind IPv6, errno: %d\n", errno);
-  }
-  num_servs++;
-
-  setblocking(serv6, false);
-  listen(serv6, 5);
-  pollfds_add(serv6);
 #endif
 
   printf("Asynchronous TCP echo server waits for connections on "
@@ -304,9 +267,9 @@ int main(void) {
   return 0;
 }
 
-#endif
-
+#else
 int main() {
   run_workqueues_and_timers();
   return 0;
 }
+#endif
