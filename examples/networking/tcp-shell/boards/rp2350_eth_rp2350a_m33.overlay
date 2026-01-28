@@ -1,0 +1,32 @@
+/ {
+	chosen {
+		zephyr,console = &cdc_acm_uart0;
+		zephyr,shell-uart = &cdc_acm_uart0;
+		//zephyr,uart-mcumgr = &cdc_acm_uart2;
+	};
+};
+
+zephyr_udc0: &usbd {
+	//compatible = "raspberrypi,rp-usbd";
+	status = "okay";
+	cdc_acm_uart0: cdc_acm_uart0 {
+		status = "okay";
+		compatible = "zephyr,cdc-acm-uart";
+		label = "CDC_ACM_0";
+	};
+	cdc_acm_uart1: cdc_acm_uart1 {
+		status = "disabled";
+		compatible = "zephyr,cdc-acm-uart";
+		label = "CDC_ACM_1";
+	};
+	cdc_acm_uart2: cdc_acm_uart2 {
+		status = "disabled";
+		compatible = "zephyr,cdc-acm-uart";
+		label = "CDC_ACM_2";
+	};
+	cdc_ncm_eth0: cdc_ncm_eth0 {
+		compatible = "zephyr,cdc-ncm-ethernet";
+		remote-mac-address = "00005e005301";
+	};
+};
+
