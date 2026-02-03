@@ -2,6 +2,16 @@
 # SPDX-License-Identifier: Apache-2.0
 
 menu "Application Configuration"
+config APP_ECHO_SERVER
+	bool "Enable echo telnet server"
+	default n 
+	help 
+		Enable echo server 
+	depends on NETWORKING
+	depends on NET_TCP
+	depends on NET_IPV4 || NET_IPV6
+	select NET_SOCKETS_SERVICE
+	select NET_SOCKETS
 
 config APP_BLINKY
 	bool "Enable blinky"
@@ -9,6 +19,23 @@ config APP_BLINKY
 	default n
 	help 
 	  Use led strip blinky
+
+if APP_BLINKY
+config SAMPLE_LED_UPDATE_DELAY
+	int "Delay between LED updates in ms"
+	default 50
+	help
+	  Delay between LED updates in ms.
+
+config SAMPLE_LED_BRIGHTNESS
+	int "LED brightness"
+	default 12
+	range 1 255
+	help
+	  Brightness level of each LED. Defaults to a low value to make
+	  it easier to distinguish colors.
+
+endif
 
 config APP_RS485 
 	bool "Half duplex RS-485 serial"
@@ -54,20 +81,6 @@ config APP_FULL_BINDESC
 	help 
 		Selects all default bindesc fields 
 		
-config SAMPLE_LED_UPDATE_DELAY
-	int "Delay between LED updates in ms"
-	default 50
-	help
-	  Delay between LED updates in ms.
-
-config SAMPLE_LED_BRIGHTNESS
-	int "LED brightness"
-	default 12
-	range 1 255
-	help
-	  Brightness level of each LED. Defaults to a low value to make
-	  it easier to distinguish colors.
-
 endmenu
 
 source "Kconfig.zephyr"

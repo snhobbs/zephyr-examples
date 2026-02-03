@@ -33,7 +33,7 @@ static const struct device *const strip = DEVICE_DT_GET(STRIP_NODE);
 
 static size_t color = 0;
 
-void setup_leds() {
+void setup_leds(void) {
   if (device_is_ready(strip)) {
     LOG_INF("Found LED strip device %s", strip->name);
   } else {
@@ -49,12 +49,9 @@ void led_work_handler(struct k_work *work) {
 
     const int rc = led_strip_update_rgb(strip, pixels, STRIP_NUM_PIXELS);
     if (rc) {
-      LOG_ERR("couldn't update strip: %d", rc);
+      LOG_ERR("couldn't update strip: %u", rc);
     }
   }
 
   color = (color + 1) % ARRAY_SIZE(colors);
 }
-
-
-

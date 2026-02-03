@@ -2,10 +2,9 @@
 
 / {
 	chosen {
-		zephyr,console = &cdc_acm_uart0;
-		zephyr,shell-uart = &cdc_acm_uart1;
-		//zephyr,uart-mcumgr = &cdc_acm_uart2;
-		zephyr,code-partition = &slot0_partition;
+		zephyr,uart-mcumgr = &cdc_acm_uart0;
+		zephyr,console = &cdc_acm_uart2;
+		zephyr,code-partition = &boot_partition;
 	};
 };
 
@@ -19,7 +18,7 @@ zephyr_udc0: &usbd {
 		label = "CDC_ACM_0";
 	};
 	cdc_acm_uart1: cdc_acm_uart1 {
-		status = "okay";
+		status = "disabled";
 		compatible = "zephyr,cdc-acm-uart";
 		label = "CDC_ACM_1";
 	};
@@ -32,26 +31,5 @@ zephyr_udc0: &usbd {
 		status = "disabled";
 		compatible = "zephyr,cdc-ecm-ethernet";
 		remote-mac-address = "00005e005301";
-	};
-};
-
-&die_temp {
-	status = "okay";
-};
-
-/ {
-	fstab {
-		compatible = "zephyr,fstab";
-		lfs1: lfs1 {
-			compatible = "zephyr,fstab,littlefs";
-			read-size = <1>;
-			prog-size = <256>;
-			cache-size = <256>;
-			lookahead-size = <256>;
-			block-cycles = <512>;
-			partition = <&storage_partition>;
-			mount-point = "/lfs";
-			automount;
-		};
 	};
 };
