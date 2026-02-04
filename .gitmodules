@@ -1,0 +1,3 @@
+[submodule "examples/instrument-template/app"]
+	path = examples/instrument-template/app
+	url = https://github.com/snhobbs/zephyr-instrument-template
